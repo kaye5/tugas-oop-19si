@@ -14,6 +14,7 @@ public class Admin {
 		putl("5.delete mahasiwa");
 		putl("6.show mahasiwa");
 		putl("7.show buku");
+		putl("8. Laporan");
 		put("Masukan input  : ");
 		switch(GetInput()) {
 		case "1" : 
@@ -37,6 +38,9 @@ public class Admin {
 		case "7" : 
 			b.getBuku();
 			break;
+		case "8" :
+			buatLaporan();
+			break;
 		default :
 			putl("Wrong input");
 			pause();
@@ -44,6 +48,31 @@ public class Admin {
 			break;
 		}
 		
+	}
+	private void buatLaporan() {
+		GetFile data;
+		data= new GetFile(cwd+"\\src\\pinjaman.csv");
+		int idx = 0;
+		System.out.printf("%-10s|%-20s|%-20s|%-20s|%-20s|%-20s\n","ID BUKU","PEMINJAM","TANGGAL","STATUS","TGL BALIK","DENDA?\n");
+		for(List<String> row : data.Get()) {
+			if(idx == 0 ) {
+				idx++;
+				continue;
+			}
+				
+			String[] last = row.get(3).split(" ",2);
+			try {
+				String status= "Belom Kembali";
+				if(row.get(2).compareTo(last[1]) > 0)
+					status = "Membayar Denda";
+				else
+					status = "Tidak Membayar Denda";
+				System.out.printf("%-10s|%-20s|%-20s|%-20s|%-20s|%-20s\n",row.get(0),row.get(1),row.get(2),last[0],last[1],status);
+			}catch(Exception e) {
+				System.out.printf("%-10s|%-20s|%-20s|%-20s|%-20s|%-20s\n",row.get(0),row.get(1),row.get(2),row.get(3),"-","-");
+			}
+			
+		}
 	}
 	private int deleteMahasiswa() {
 		put("Masukan NIM : ");

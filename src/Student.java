@@ -83,30 +83,37 @@ public class Student {
 	}
 
 	private void kembalikanBuku() {
+		Date tglKembali= Calendar.getInstance().getTime();  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		String strTglKembali = dateFormat.format(tglKembali);  
 		putl("Megembalikan buku");
 		put("Masukan ID peminjam : ");
 		String id = GetInput();
 		GetFile pinjaman = new GetFile(cwd+"\\src\\pinjaman.csv");
 		if(pinjaman.Get().size() > Integer.parseInt(id)-2 ) {
-			List<String> temp = pinjaman.Get().get(Integer.parseInt(id)-1);
-			temp.set(3, "Done");
-			pinjaman.Get().set(Integer.parseInt(id)-1, temp);
+			List<String> temp = pinjaman.Get().get(Integer.parseInt(id));
+			temp.set(3, "Done "+strTglKembali);
+			pinjaman.Get().set(Integer.parseInt(id), temp);
 			GetFile save = new GetFile();
 			save.saveFile(cwd+"\\src\\pinjaman.csv", pinjaman.Get());
-			Date tgl;		
+			String skrg;
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			Calendar c = Calendar.getInstance();
 			try {
-				long now = Instant.now().toEpochMilli();
-				tgl = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss").parse(temp.get(2));
-				Calendar car = Calendar.getInstance();
-				car.setTime(tgl);
-				if(now+36000000 < car.getTimeInMillis()) {
+				c.setTime(sdf.parse(temp.get(2)));
+				c.add(Calendar.HOUR, 3);
+				String tglPinjam = sdf.format(c.getTime());
+				
+				skrg = sdf.format(tglKembali);
+				
+				if(skrg.compareTo(tglPinjam) < 0)
 					putl("Berhasil");
-				}else {
+				else {
 					Denda denda = new Denda(id);
 					denda.bayarDenda();
 				}
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
+//				 TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} else {		
@@ -123,7 +130,7 @@ public class Student {
 		System.out.print("Masukan Password : ");
 		String password = GetInput();		
 		for(List<String> data : file.Get()) {
-			if(data.get(1).equals(username)) {
+			if(data.get(1).equals(username) && data.get(2).equals(password)) {
 				flag = true;
 				profile = data;
 				studentMenu();
