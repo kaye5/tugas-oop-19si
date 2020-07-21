@@ -71,7 +71,7 @@ public class Student {
 		}			
 		else {
 			Date date = Calendar.getInstance().getTime();  
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 			String strDate = dateFormat.format(date);  
 			List<String> baru = new ArrayList<String>();
 			baru.add(id); baru.add(profile.get(0)); baru.add(strDate); baru.add("Waiting");
@@ -84,7 +84,7 @@ public class Student {
 
 	private void kembalikanBuku() {
 		Date tglKembali= Calendar.getInstance().getTime();  
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 		String strTglKembali = dateFormat.format(tglKembali);  
 		putl("Megembalikan buku");
 		put("Masukan ID peminjam : ");

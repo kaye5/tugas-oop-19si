@@ -10,7 +10,7 @@ public class Denda {
 	}
 	public void bayarDenda() {
 		Date date = Calendar.getInstance().getTime();  
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");  
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");  
 		String strDate = dateFormat.format(date);  
 		System.out.println("Anda dikenakan denda untuk id peminjaman "+id);
 		GetFile denda = new GetFile(cwd+"\\src\\denda.csv");

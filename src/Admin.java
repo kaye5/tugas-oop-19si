@@ -1,3 +1,4 @@
+import java.text.SimpleDateFormat;
 import java.util.*;
 public class Admin {
 	String cwd = System.getProperty("user.dir");
@@ -62,8 +63,16 @@ public class Admin {
 				
 			String[] last = row.get(3).split(" ",2);
 			try {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				Calendar c = Calendar.getInstance();
+				c.setTime(sdf.parse(row.get(2)));
+				c.add(Calendar.HOUR, 3);
+				String tglPinjam = sdf.format(c.getTime());
+				c.setTime(sdf.parse(last[1]));
+				String tglKembali = sdf.format(c.getTime());
+				
 				String status= "Belom Kembali";
-				if(row.get(2).compareTo(last[1]) > 0)
+				if(tglKembali.compareTo(tglPinjam) > 0)
 					status = "Membayar Denda";
 				else
 					status = "Tidak Membayar Denda";
